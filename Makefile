@@ -62,7 +62,7 @@ $(OBJS):
 	$(CC) $(CFLAGS) -c -o $@ $(@:.o=.c)
 
 test: $(OBJS) $(TARGET_STATIC) deps
-	cc deps/ok/libok.a  $(CFLAGS) $(TARGET_STATIC) test.c -o test-$(BIN)
+	cc test.c deps/ok/libok.a $(TARGET_STATIC) $(CFLAGS) -o test-$(BIN)
 	./test-$(BIN)
 
 deps:
