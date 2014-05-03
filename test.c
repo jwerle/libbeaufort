@@ -35,6 +35,15 @@ test_decrypt ();
 static int
 test_tableau ();
 
+static char *monkey = NULL;
+static char *monkey_s = NULL;
+
+static char *goodman = NULL;
+static char *goodman_s = NULL;
+
+static char *groove = NULL;
+static char *groove_s = NULL;
+
 int
 main (void) {
   test("encrypt suite", 0 == test_encrypt());
@@ -46,27 +55,43 @@ main (void) {
 
 static int
 test_encrypt () {
-  char *enc = NULL;
 
   // kinkajous are awesome
   // qsnqarmgi ajw aewimow
-  enc = beaufort_encrypt("kinkajous are awesome", "monkey", NULL);
-  assert(enc);
-  assert(0 == strcmp(enc, "cgaaepyuv knu msjsqmi"));
+  monkey_s = "kinkajous are awesome";
+  monkey = beaufort_encrypt(monkey_s, "monkey", NULL);
+  assert(monkey);
+  assert(0 == strcmp(monkey, "cgaaepyuv knu msjsqmi"));
 
-  enc = beaufort_encrypt("the \nbig \nlebowski", "goodman", NULL);
-  assert(enc);
-  assert(0 == strcmp(enc, "nhk \nceu \nccnahuqf"));
+  goodman_s = "the \nbig \nlebowski";
+  goodman = beaufort_encrypt(goodman_s, "goodman", NULL);
+  assert(goodman);
+  assert(0 == strcmp(goodman, "nhk \nceu \nccnahuqf"));
 
-  enc = beaufort_encrypt("d4nc3 t0 th3 mus!c :D", "groove", NULL);
-  assert(enc);
-  assert(0 == strcmp(enc, "d4em3 v0 cx3 uxw!m :D"));
+  groove_s = "d4nc3 t0 th3 mus!c :D";
+  groove = beaufort_encrypt(groove_s, "groove", NULL);
+  assert(groove);
+  assert(0 == strcmp(groove, "d4em3 v0 cx3 uxw!m :D"));
 
   return 0;
 }
 
 static int
 test_decrypt () {
+  char *dec = NULL;
+
+  dec = beaufort_decrypt(monkey, "monkey", NULL);
+  assert(dec);
+  assert(0 == strcmp(dec, monkey_s));
+
+  dec = beaufort_decrypt(goodman, "goodman", NULL);
+  assert(dec);
+  assert(0 == strcmp(dec, goodman_s));
+
+  dec = beaufort_decrypt(groove, "groove", NULL);
+  assert(dec);
+  assert(0 == strcmp(dec, groove_s));
+
   return 0;
 }
 
@@ -83,10 +108,23 @@ test_tableau () {
     char **mat = beaufort_tableau(BEAUFORT_ALPHA);
     assert(mat);
 
+    {
+      int x = 0;
+      int y = 0;
+      size_t l = strlen(mat[0]);
+      for (; y < l; ++y) {
+        for (x = 0; x < l; ++x) {
+          printf("%c", mat[y][x]);
+          if (x < l - 1) {
+            printf(" | ");
+          }
+        }
+        printf("\n");
+      }
+    }
 
     tfree(mat);
   }
-
 
   {
     char **mat = beaufort_tableau("abc");

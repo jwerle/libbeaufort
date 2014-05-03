@@ -12,28 +12,27 @@
 #include <beaufort.h>
 
 char *
-beaufort_encrypt (const char *src, const char *key, char **tableau) {
+beaufort_encrypt (const char *src, const char *key, char **mat) {
   char *enc = NULL;
   char ch = 0; // current char
   char k = 0; // key index
-  char ct = 0; // ciper text char
   size_t ksize = 0;  // key size
   size_t size = 0; // encrypted text size
   size_t len = 0; // source size
   size_t rsize = 0; // row size
   int i = 0; // source index
-  int x = 0; // tableau row index
-  int y = 0; // tableau column index
+  int x = 0; // mat row index
+  int y = 0; // mat column index
   int j = 0; // key modulo
   int needed = 1; // needs encryption predicate
 
-  if (NULL == tableau) {
-    tableau = beaufort_tableau(BEAUFORT_ALPHA);
+  if (NULL == mat) {
+    mat = beaufort_tableau(BEAUFORT_ALPHA);
   }
 
   ksize = (size_t) strlen(key);
   len = (size_t) strlen(src);
-  rsize = (size_t) strlen(tableau[0]);
+  rsize = (size_t) strlen(mat[0]);
   enc = (char *) malloc(sizeof(char) * len + 1);
 
   for (; (ch = src[i]); ++i) {
@@ -42,8 +41,8 @@ beaufort_encrypt (const char *src, const char *key, char **tableau) {
     x = 0; y = 0;
 
     // column with `ch' at top
-    while ((ct = tableau[y][x++])) {
-      if (ch == ct) { needed = 1; --x; break; }
+    for (x = 0; x < rsize; ++x) {
+      if (ch == mat[y][x]) { needed = 1; break; }
       else { needed = 0; }
     }
 
@@ -56,8 +55,8 @@ beaufort_encrypt (const char *src, const char *key, char **tableau) {
     k = key[(j++) % ksize];
 
     // find row in column with `key[k]'
-    while ((ct = tableau[y++][x])) {
-      if (k == ct) { needed = 1; --y; break; }
+    for (y = 0; y < rsize; ++y) {
+      if (k == mat[y][x]) { needed = 1; break; }
       else { needed = 0; }
     }
 
@@ -67,8 +66,7 @@ beaufort_encrypt (const char *src, const char *key, char **tableau) {
       continue;
     }
 
-    ct = tableau[y][0];
-    enc[size++] = ct;
+    enc[size++] = mat[y][0];
   }
 
   enc[size] = '\0';
