@@ -81,14 +81,17 @@ test_decrypt () {
   dec = beaufort_decrypt(monkey, "monkey", NULL);
   assert(dec);
   assert(0 == strcmp(dec, monkey_s));
+  free(dec);
 
   dec = beaufort_decrypt(goodman, "goodman", NULL);
   assert(dec);
   assert(0 == strcmp(dec, goodman_s));
+  free(dec);
 
   dec = beaufort_decrypt(groove, "groove", NULL);
   assert(dec);
   assert(0 == strcmp(dec, groove_s));
+  free(dec);
 
   return 0;
 }

@@ -3,7 +3,7 @@ beaufort(1) -- Command line Beaufort Cipher utility
 
 ## SYNOPSIS
 
-`beaufort` [-hV] [options]
+`beaufort` \[-hV\] \[options\]
 
 ## OPTIONS
 
@@ -27,6 +27,19 @@ beaufort(1) -- Command line Beaufort Cipher utility
 
 ## EXAMPLES
 
+  **encrypt:**
+
+  ```
+  $ echo kinkajous are awesome | beaufort --encrypt --key=panda
+  5s0t06mtl 0yw Dhwxm1z
+  ```
+
+  **decrypt:**
+
+  ```
+  $ echo 5s0t06mtl 0yw Dhwxm1z | beaufort --decrypt --key=panda
+  kinkajous are awesome
+  ```
 
 ## AUTHOR
 

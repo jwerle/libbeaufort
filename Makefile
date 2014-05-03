@@ -8,7 +8,7 @@ OBJS = $(SRC:.c=.o)
 OS = $(shell uname)
 
 PREFIX ?= /usr/local
-MANPREFIX ?= $(PREFIX)/share/man/man1
+MANPREFIX ?= $(PREFIX)/share/man
 
 MAN_FILES = $(wildcard man/*.md)
 
@@ -40,7 +40,8 @@ install: $(BIN)
 	install include/beaufort.h $(PREFIX)/include
 	install $(TARGET_DSO) $(PREFIX)/lib
 	install $(BIN) $(PREFIX)/bin
-	install $(MAN_FILES:%.md=%.1) $(MANPREFIX)
+	install man/*.1 $(MANPREFIX)/man1
+	install man/*.3 $(MANPREFIX)/man3
 
 $(TARGET_STATIC): $(OBJS)
 	ar crus $(TARGET_STATIC) $(OBJS)
@@ -80,6 +81,6 @@ clean:
 docs: $(MAN_FILES)
 
 $(MAN_FILES):
-	curl -# -F page=@$(@) -o $(@:%.md=%.1) http://mantastic.herokuapp.com
+	curl -# -F page=@$(@) -o $(@:%.md=%) http://mantastic.herokuapp.com
 
 .PHONY: deps $(MAN_FILES)
