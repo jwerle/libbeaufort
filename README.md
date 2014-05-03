@@ -61,7 +61,7 @@ main (void) {
 
 ## api
 
-See [Beaufort.h](https://github.com/jwerle/libbeaufort/blob/master/include/Beaufort.h)
+See [beaufort.h](https://github.com/jwerle/libbeaufort/blob/master/include/beaufort.h)
 
 ## license
 
