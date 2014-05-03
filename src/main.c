@@ -15,14 +15,18 @@ enum { NO_OP, ENCRYPT_OP, DECRYPT_OP };
 
 static void
 usage () {
-  fprintf(stderr, "usage: beaufort [-hV] [--encrypt|--decrypt]\n");
+  fprintf(stderr, "usage: beaufort [-hV] [options]\n");
 }
 
 static void
 help () {
   fprintf(stderr, "\noptions:\n");
-  fprintf(stderr, "\n  --encrypt  encrypt stdin stream");
-  fprintf(stderr, "\n  --decrypt  decrypt stdin stream");
+  fprintf(stderr, "\n  --encrypt           encrypt stdin stream");
+  fprintf(stderr, "\n  --decrypt           decrypt stdin stream");
+  fprintf(stderr, "\n  --key=[key]         cipher key (required)");
+  fprintf(stderr,
+      "\n  --alphabet=[alpha]  cipher tableau alphabet (Default: '%s')\n",
+      BEAUFORT_ALPHA);
   fprintf(stderr, "\n");
 }
 
@@ -70,7 +74,9 @@ int
 main (int argc, char **argv) {
   char *buf = NULL;
   char *alpha = NULL;
+  char *key = NULL;
   char *out = NULL;
+  char **mat = NULL;
   int op = NO_OP;
 
   // emit usage with empty arguments
@@ -99,9 +105,21 @@ main (int argc, char **argv) {
           case '-':
             if (0 == strcmp(opt, "encrypt")) { op = ENCRYPT_OP;}
             if (0 == strcmp(opt, "decrypt")) { op = DECRYPT_OP;}
+
+            // parse key
+            if (0 == strncmp(opt, "key=", 4)) {
+              for (i = 0; i < 4; ++i) tmp = *opt++;
+              key = opt;
+            }
+
+            if (0 == strncmp(opt, "alphabet=", 8)) {
+              for (i = 0; i < 9; ++i) tmp = *opt++;
+              alpha = opt;
+            }
             break;
 
           default:
+            tmp = *opt--;
             // error
             fprintf(stderr, "unknown option: `%s'\n", opt);
             usage();
@@ -110,16 +128,28 @@ main (int argc, char **argv) {
       }
     }
   }
-/*
+
+  if (NULL == alpha) {
+    alpha = BEAUFORT_ALPHA;
+  }
+
+  mat = beaufort_tableau(alpha);
+
+  if (NULL == key) {
+    fprintf(stderr, "error: Expecting cipher key\n");
+    usage();
+    return 1;
+  }
+
 #define OP(name) {                               \
   buf = read_stdin();                            \
   if (NULL == buf) { return 1; }                 \
-  out = beaufort_ ## name(buf);                  \
+  out = beaufort_ ## name(buf, key, mat);        \
   printf("%s\n", out);                           \
   do {                                           \
     buf = read_stdin();                          \
     if (NULL == buf) { break; }                  \
-    out = beaufort_ ## name(buf);                \
+    out = beaufort_ ## name(buf, key, mat);      \
     printf("%s\n", out);                         \
   } while (NULL != buf);                         \
 }
@@ -143,6 +173,5 @@ switch (op) {
 }
 
 #undef OP
-*/
 return 0;
 }

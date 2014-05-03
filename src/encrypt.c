@@ -7,45 +7,55 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 #include <beaufort.h>
+
+static size_t
+ssize (const char *str) {
+  size_t size = 0;
+  while ('\0' != str[size]) size++;
+  return size;
+}
 
 char *
 beaufort_encrypt (const char *src, const char *key, char **mat) {
   char *enc = NULL;
-  char ch = 0; // current char
-  char k = 0; // key index
-  size_t ksize = 0;  // key size
-  size_t size = 0; // encrypted text size
-  size_t len = 0; // source size
-  size_t rsize = 0; // row size
-  int i = 0; // source index
-  int x = 0; // mat row index
-  int y = 0; // mat column index
-  int j = 0; // key modulo
-  int needed = 1; // needs encryption predicate
+  char ch = 0;
+  char k = 0;
+  size_t ksize = 0;
+  size_t size = 0;
+  size_t len = 0;
+  size_t rsize = 0;
+  int i = 0;
+  int x = 0;
+  int y = 0;
+  int j = 0;
+  int needed = 1;
 
   if (NULL == mat) {
     mat = beaufort_tableau(BEAUFORT_ALPHA);
+    if (NULL == mat) { return NULL; }
   }
 
-  ksize = (size_t) strlen(key);
-  len = (size_t) strlen(src);
-  rsize = (size_t) strlen(mat[0]);
+  ksize = ssize(key);
+  len = ssize(src);
+  rsize = ssize(mat[0]);
   enc = (char *) malloc(sizeof(char) * len + 1);
+
+  if (NULL == enc) { return NULL; }
 
   for (; (ch = src[i]); ++i) {
     // reset
     needed = 1;
-    x = 0; y = 0;
 
     // column with `ch' at top
-    for (x = 0; x < rsize; ++x) {
+    for (x = 0, y = 0; x < rsize; ++x) {
       if (ch == mat[y][x]) { needed = 1; break; }
       else { needed = 0; }
     }
 
+    // if char not in top row
+    // append current char
     if (0 == needed) {
       enc[size++] = ch;
       continue;
@@ -60,12 +70,16 @@ beaufort_encrypt (const char *src, const char *key, char **mat) {
       else { needed = 0; }
     }
 
+    // append char and decrement
+    // unused modolu index if
+    // not needed
     if (0 == needed) {
       enc[size++] = ch;
       j--;
       continue;
     }
 
+    // append left char
     enc[size++] = mat[y][0];
   }
 

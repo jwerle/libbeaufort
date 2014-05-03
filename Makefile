@@ -27,6 +27,7 @@ TARGET_DSO = $(TARGET_NAME).so
 CFLAGS += -Iinclude -std=c99 -Wall -O2 -fvisibility=hidden -fPIC -pedantic
 LDFLAGS += -o $(TARGET_DSOLIB) -shared -soname $(TARGET_DSO).$(VERSION_MAJOR)
 CFLAGS += -DBEAUFORT_VERSION='"$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)"'
+CFLAGS += -Ideps
 
 ifeq ($(OS), Darwin)
 	LDFLAGS += -lc -Wl,-install_name,$(TARGET_DSO)
@@ -60,7 +61,7 @@ $(OBJS):
 	$(CC) $(CFLAGS) -c -o $@ $(@:.o=.c)
 
 test: $(OBJS) $(TARGET_STATIC) deps
-	cc deps/ok/libok.a -Ideps/ok $(CFLAGS) $(TARGET_STATIC) test.c -o test-$(BIN)
+	cc deps/ok/libok.a  $(CFLAGS) $(TARGET_STATIC) test.c -o test-$(BIN)
 	./test-$(BIN)
 
 deps:

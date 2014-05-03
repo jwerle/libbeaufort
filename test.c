@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <ok.h>
+#include <ok/ok.h>
 #include <beaufort.h>
 
 #define test(name, e) {                   \
@@ -60,6 +60,7 @@ test_encrypt () {
   // qsnqarmgi ajw aewimow
   monkey_s = "kinkajous are awesome";
   monkey = beaufort_encrypt(monkey_s, "monkey", NULL);
+  printf("%s\n", monkey);
   assert(monkey);
   assert(0 == strcmp(monkey, "cgaaepyuv knu msjsqmi"));
 
@@ -82,6 +83,7 @@ test_decrypt () {
 
   dec = beaufort_decrypt(monkey, "monkey", NULL);
   assert(dec);
+  printf("%s\n", dec);
   assert(0 == strcmp(dec, monkey_s));
 
   dec = beaufort_decrypt(goodman, "goodman", NULL);
