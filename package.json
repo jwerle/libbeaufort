@@ -1,6 +1,6 @@
 {
   "name": "beaufort",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repo": "jwerle/libbeaufort",
   "description": "A C implementation of the Beaufort Cipher",
   "keywords": ["beaufort", "cipher"],
