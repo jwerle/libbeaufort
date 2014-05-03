@@ -22,6 +22,7 @@ beaufort_tableau (const char *alpha) {
   char **mat = NULL;
   int x = 0;
   int y = 0;
+  int j = 0;
 
   mat = (char **) calloc(size + 1, sizeof(char *));
 
@@ -32,8 +33,8 @@ beaufort_tableau (const char *alpha) {
 
     if (NULL == mat[y]) { return NULL; }
 
-    for (x = 0; x < size; ++x) {
-      mat[y][x] = alpha[(x + y) % size];
+    for (x = 0, j = size; x < size; ++x, --j) {
+      mat[y][x] = alpha[(j + y) % size];
     }
 
     mat[y][x] = '\0';

@@ -1,9 +1,9 @@
-bacon(1) -- Command line Baconian Cipher utility
+beaufort(1) -- Command line Beaufort Cipher utility
 =================================
 
 ## SYNOPSIS
 
-`bacon` [-hV] [--encode|--decode] [--alphabet='ABC']
+`beaufort` [-hV] [options]
 
 ## OPTIONS
 
@@ -13,36 +13,20 @@ bacon(1) -- Command line Baconian Cipher utility
   -h, --help
       output help information
 
-  --encode
-      Encode stdin stream
+  --encrypt
+      encrypt stdin stream
 
-  --decode
-      Decode stdin stream
+  --decrypt
+      decrypt stdin stream
 
-  --alphabet=[ALPHA]
-      Cipher alphabet (Default: 'ABCDEFGHIKLMNOPQRSTUWXYZ')
+  --key=[key]
+      cipher key (required)
+
+  --alphabet=[alpha]
+    cipher tableau alphabet (Default: 'abcdefghijklmnopqrstuvwxyz')
 
 ## EXAMPLES
 
-*encode:*
-
-  $ echo abc | bacon --encode
-  AAAAAAAAABAAABA
-
-  $ { echo abc && echo def && echo ghi; }  | bacon --encode
-  AAAAAAAAABAAABA
-  AAABBAABAAAABAB
-  AABBAAABBBABAAA
-
-*decode:*
-
-  $ echo AAAAAAAAABAAABA | bacon --decode
-  ABC
-
-  $ { echo 'AAAAAAAAABAAABA' && echo 'AAABBAABAAAABAB' && echo 'AABBAAABBBABAAA'; } | bacon --decode
-  ABC
-  DEF
-  GHI
 
 ## AUTHOR
 
@@ -50,12 +34,11 @@ bacon(1) -- Command line Baconian Cipher utility
 
 ## REPORTING BUGS
 
-  - <https://github.com/jwerle/libbacon/issues>
+  - <https://github.com/jwerle/libbeaufort/issues>
 
 ## SEE ALSO
 
-  - <https://github.com/jwerle/libbacon>
-  - <https://github.com/mathiasbynens/bacon-cipher>
+  - <https://github.com/jwerle/libbeaufort>
 
 ## LICENSE
 

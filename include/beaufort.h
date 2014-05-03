@@ -19,7 +19,9 @@
  */
 
 #ifndef BEAUFORT_ALPHA
-#define BEAUFORT_ALPHA "abcdefghijklmnopqrstuvwxyz"
+#define BEAUFORT_ALPHA \
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+//#define BEAUFORT_ALPHA "abcdefghijklmnopqrstuvwxyz"
 #endif
 
 /**

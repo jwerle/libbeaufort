@@ -56,23 +56,20 @@ main (void) {
 static int
 test_encrypt () {
 
-  // kinkajous are awesome
-  // qsnqarmgi ajw aewimow
   monkey_s = "kinkajous are awesome";
   monkey = beaufort_encrypt(monkey_s, "monkey", NULL);
-  printf("%s\n", monkey);
   assert(monkey);
-  assert(0 == strcmp(monkey, "cgaaepyuv knu msjsqmi"));
+  assert(0 == strcmp(monkey, "26004Fyuv AnK Cs9sqC8"));
 
   goodman_s = "the \nbig \nlebowski";
   goodman = beaufort_encrypt(goodman_s, "goodman", NULL);
   assert(goodman);
-  assert(0 == strcmp(goodman, "nhk \nceu \nccnahuqf"));
+  assert(0 == strcmp(goodman, "n7A \n24u \n22D0huq5"));
 
   groove_s = "d4nc3 t0 th3 mus!c :D";
   groove = beaufort_encrypt(groove_s, "groove", NULL);
   assert(groove);
-  assert(0 == strcmp(groove, "d4em3 v0 cx3 uxw!m :D"));
+  assert(0 == strcmp(groove, "3n1Cs lg y7l 9ko!F :b"));
 
   return 0;
 }
@@ -83,7 +80,6 @@ test_decrypt () {
 
   dec = beaufort_decrypt(monkey, "monkey", NULL);
   assert(dec);
-  printf("%s\n", dec);
   assert(0 == strcmp(dec, monkey_s));
 
   dec = beaufort_decrypt(goodman, "goodman", NULL);
@@ -133,16 +129,16 @@ test_tableau () {
     assert(mat);
 
     assert('a' == mat[0][0]);
-    assert('b' == mat[0][1]);
-    assert('c' == mat[0][2]);
+    assert('c' == mat[0][1]);
+    assert('b' == mat[0][2]);
 
     assert('b' == mat[1][0]);
-    assert('c' == mat[1][1]);
-    assert('a' == mat[1][2]);
+    assert('a' == mat[1][1]);
+    assert('c' == mat[1][2]);
 
     assert('c' == mat[2][0]);
-    assert('a' == mat[2][1]);
-    assert('b' == mat[2][2]);
+    assert('b' == mat[2][1]);
+    assert('a' == mat[2][2]);
 
     tfree(mat);
   }
