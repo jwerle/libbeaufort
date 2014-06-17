@@ -7,22 +7,22 @@ beaufort(1) -- Command line Beaufort Cipher utility
 
 ## OPTIONS
 
-  -V, --version
+  `-V, --version`
       output program version
 
-  -h, --help
+  `-h, --help`
       output help information
 
-  --encrypt
+  `--encrypt`
       encrypt stdin stream
 
-  --decrypt
+  `--decrypt`
       decrypt stdin stream
 
-  --key=[key]
+  `--key=[key]`
       cipher key (required)
 
-  --alphabet=[alpha]
+  `--alphabet=[alpha]`
     cipher tableau alphabet (Default: 'abcdefghijklmnopqrstuvwxyz')
 
 ## EXAMPLES
